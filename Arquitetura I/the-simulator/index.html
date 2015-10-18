@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta author="Raul, Vitor e Pedro">
+<meta charset="utf-8">
+<link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="css/jquery-linedtextarea.css"/>
+<script type="text/javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" src="lib/bootstrap.js"></script>
+<script type="text/javascript" src="lib/util.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="lib/jquery-linedtextarea.js"></script>
+<script type="text/javascript" src="lib/files.js"></script>
+
+
+<!--<script type="text/javascript" src="masked.js"></script>-->
+</head>
+<body
+	style="background: #d4e4ef; /* Old browsers */ 
+	background: -moz-linear-gradient(top, #d4e4ef 0%, #86aecc 100%); /* FF3.6+ */ 
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d4e4ef), color-stop(100%, #86aecc)); /* Chrome,Safari4+ */ 
+	background: -webkit-linear-gradient(top, #d4e4ef 0%, #86aecc 100%); /* Chrome10+,Safari5.1+ */ 
+	background: -o-linear-gradient(top, #d4e4ef 0%, #86aecc 100%); /* Opera 11.10+ */ 
+	background: -ms-linear-gradient(top, #d4e4ef 0%, #86aecc 100%); /* IE10+ */ 
+	background: linear-gradient(to bottom, #d4e4ef 0%, #86aecc 100%); /* W3C */ 
+	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=0);">
+	<!-- Barra de navegacao -->
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<ul class="nav">
+				<li class="dropdown">
+					<a class="dropdown-toggle brand nav" data-toggle="dropdown" href="#">The Simulator <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#" id="openFile" data-toggle="modal"><i class="icon-folder-open"></i> Open a file</a></li>
+						<li><a href="#modalSave"  data-toggle="modal"><i class="icon-file"></i> Save file as...</a></li>
+					</ul>
+				</li>
+			</ul>
+			<div class="container" style="position: relative; left: 268px">
+				<ul class="nav">
+					<li>
+						<button class="btn btn-success" onclick="init(1)"
+							style="width: 100px">
+							<div class="icon-play"></div>
+						</button>
+					</li>
+					<li>
+						<button class="btn btn-warning" onclick="init(3)" style="width: 100px">
+							<div class="icon-step-backward"></div>
+						</button>
+					</li>
+					<li>
+						<button class="btn btn-info" onclick="init(2)" style="width: 100px">
+							<div class="icon-step-forward"></div>
+						</button>
+					</li>
+					<li>
+						<button class="btn btn-danger" style="width: 100px" onclick="location.reload(true)">
+							<div class="icon-fast-backward"></div>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<br />
+	<br />
+
+	<!-- Inicio da pagina -->
+		<br/>
+		<h1 class="text-center">
+			The Simulator 
+			<br><small>by Raul Sena, Pedro Aguiar, Victor Pedro</small>
+		</h1>
+		<br />
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span6">
+				<ul class="nav nav-tabs" >
+					<li class="active"><a href="#textIn" data-toggle="tab">Editar</a></li>
+					<li ><a href="#memoria" data-toggle="tab">Memória</a></li>
+				</ul>
+				<div class="tab-content">
+				<div class="tab-pane fade active in" id="textIn">
+					<textarea 
+						class="lineNumber" 
+						id="input" 
+						style="overflow: auto; height: 1045px; width: 97%;"
+						onkeydown="insertTab(this, event);"></textarea>
+				</div>
+				<div class="tab-pane fade" id="memoria">
+					<table class="table table-bordered table-condensed table-striped" id="tabelaMemoria">
+						<thead>
+							<tr style="background-color: #B3C4D6">
+								<th>Endereço de Memória</th>
+								<th>Código</th>
+								<th>Instrução</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+				</div>
+				</div>
+				<div class="span6">
+					<table class="table table-bordered table-condensed table-hover">
+						<thead>
+							<tr>
+								<th>Registrador</th>
+								<th>Número</th>
+								<th>Valor</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>$zero</td>
+								<td>0</td>
+								<td id="zero">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$at</td>
+								<td>1</td>
+								<td id="at">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$v0</td>
+								<td>2</td>
+								<td id="v0" >0x00000000</td>
+							</tr>
+							<tr>
+								<td>$v1</td>
+								<td>3</td>
+								<td id="v1">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$a0</td>
+								<td>4</td>
+								<td id="a0">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$a1</td>
+								<td>5</td>
+								<td id="a1">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$a2</td>
+								<td>6</td>
+								<td id="a2">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$a3</td>
+								<td>7</td>
+								<td id="a3">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t0</td>
+								<td>8</td>
+								<td id="t0">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t1</td>
+								<td>9</td>
+								<td id="t1">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t2</td>
+								<td>10</td>
+								<td id="t2">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t3</td>
+								<td>11</td>
+								<td id="t3">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t4</td>
+								<td>12</td>
+								<td id="t4">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t5</td>
+								<td>13</td>
+								<td id="t5">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t6</td>
+								<td>14</td>
+								<td id="t6">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t7</td>
+								<td>15</td>
+								<td id="t7">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s0</td>
+								<td>16</td>
+								<td id="s0">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s1</td>
+								<td>17</td>
+								<td id="s1">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s2</td>
+								<td>18</td>
+								<td id="s2">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s3</td>
+								<td>19</td>
+								<td id="s3">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s4</td>
+								<td>20</td>
+								<td id="s4">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s5</td>
+								<td>21</td>
+								<td id="s5">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s6</td>
+								<td>22</td>
+								<td id="s6">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$s7</td>
+								<td>23</td>
+								<td id="s7">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t8</td>
+								<td>24</td>
+								<td id="t8">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$t9</td>
+								<td>25</td>
+								<td id="t9">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$k0</td>
+								<td>26</td>
+								<td id="k0">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$k1</td>
+								<td>27</td>
+								<td id="k1">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$gp</td>
+								<td>28</td>
+								<td id="gp">0x10008000</td>
+							</tr>
+							<tr>
+								<td>$sp</td>
+								<td>29</td>
+								<td id="sp">0x7fffeffc</td>
+							</tr>
+							<tr>
+								<td>$fp</td>
+								<td>30</td>
+								<td id="fp">0x00000000</td>
+							</tr>
+							<tr>
+								<td>$ra</td>
+								<td>31</td>
+								<td id="ra">0x00000000</td>
+							</tr>
+							<tr>
+								<td>pc</td>
+								<td></td>
+								<td id="pc">0x00000000</td>
+							</tr>
+							<tr>
+								<td>hi</td>
+								<td></td>
+								<td id="hi">0x00000000</td>
+							</tr>
+							<tr>
+								<td>lo</td>
+								<td></td>
+								<td id="lo">0x00000000</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="tabbable">
+			<!-- Only required for left/right tabs -->
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#tab1" data-toggle="tab">Console</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tab1">
+					<textarea id="console" onclick="testa()"
+						style="overflow: scroll; margin: 0px 0px 10px; width: 712px; height: 189px; position:relative; left:10px;" readonly></textarea>
+				</div>
+			</div>
+		</div>
+	
+	<!-- Fim da página -->
+
+	<!-- Input File -->
+	<input type="file" id="fileToLoad" class="hide">		
+	
+	<!-- Modal Save -->
+	<div id="modalSave" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Escolha o nome do arquivo</h3>
+		</div>
+		<div class="modal-body">
+	  		<input id="inputFileNameToSaveAs"></input>
+			<!-- <button onclick="saveTextAsFile()">Save Text to File</button> -->
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+			<button onclick="saveTextAsFile()" data-dismiss="modal" class="btn btn-primary">Salvar</button>
+		</div>
+	</div>
+
+	<!-- Fim -->
+</body>
+
+<!-- "Classes" -->
+<script type="text/javascript" src="core/UCP.js"></script>
+<script type="text/javascript" src="core/ULA.js"></script>
+<script type="text/javascript" src="core/instrucoes.js"></script>
+<script type="text/javascript" src="core/registradores.js"></script>
+<script type="text/javascript" src="core/memoria.js"></script>
+<script type="text/javascript" src="core/montador.js"></script>
+
+<!-- scripts específicos -->
+<script type="text/javascript">
+var ucp = new UCP();
+
+function init(tipo){
+	//input e montagem
+	var entry = $('#input').val().toLowerCase().split(/\n/);
+	mapeiaLabel(entry);
+	ucp.tipo = tipo;
+	ucp.entrada = entry;
+	ucp.run();
+}
+
+$(function() {
+	$(".lineNumber").linedtextarea();
+});
+
+$("#openFile").click(function(){
+   $("#fileToLoad").trigger('click');
+   return false;
+});
+
+$("#fileToLoad").change(function(){
+   loadFileAsText();
+});
+
+</script>
+</html>
+
