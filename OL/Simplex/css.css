@@ -1,0 +1,13 @@
+body{
+	margin: 0 auto;
+}
+header {
+    background: none repeat scroll 0 0 #eefff7;
+}
+header h2{
+	text-align: center;
+}
+#principal {
+    margin: 0 auto;
+    width: 800px;
+}

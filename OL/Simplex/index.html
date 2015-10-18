@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Otimização Linear - Método Simplex</title>
+<link href="css.css" rel="stylesheet" />
+</head>
+<html>
+<body>
+	<div id="principal">
+		<header>
+			<h2>Solver da Tia Raquel!!</h2>
+		</header>
+		<form name="theSpreadsheet">
+			<table border="0" bgcolor="eefff7" noshade="">
+
+			<tbody><tr>
+
+			<td align="center">
+
+			Digite o PPL no formulário abaixo. (Aperte 'Exemplo' para ver um modelo.)
+
+			<br>
+
+			<textarea cols="80" rows="10" name="input"></textarea>
+
+			</td>
+
+			</tr>
+
+			<tr><td align="center">Solução:<br><input type="text" value="Solução ótima aparecerá aqui." name="expr" size="80">
+
+			<br>
+
+			<input type="button" onclick="doIt(2); doIt(1)" value="Resolver"> &nbsp;
+
+			<input type="button" onclick="doIt(5)" value="Exemplo"> &nbsp;
+
+			<input type="button" onclick="doIt(3)" value="Apagar"> &nbsp;
+
+			Arredondando: <input type="text" name="acc" value="6" size="2"> dígitos mais significantes &nbsp;
+
+			<br>Modo: <select size="3" name="Mode"> 
+
+				<option selected="">Decimal
+
+				</option><option>Fração
+
+				</option><option>Inteiro
+
+				</option></select>
+
+			</td></tr>
+
+			<tr>
+
+			<td align="center">
+
+			O passo a passo aparecerá aqui.
+
+			<br>
+
+			<textarea cols="80" rows="15" name="output">
+			</textarea>
+
+			</td>
+
+			</tr>
+
+			</tbody></table>
+		</form>
+	</div>
+	<script type="text/javascript" src="index.js"></script>
+	<script type="text/javascript" src="math.js"></script>
+	<script type="text/javascript" src="parser.js"></script>
+	<script type="text/javascript" src="simplex.js"></script>
+</body>
+</html>
