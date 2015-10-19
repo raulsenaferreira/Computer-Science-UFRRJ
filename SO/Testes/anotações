@@ -1,0 +1,17 @@
+O terminal pode ser visto como um processo pai que espera por um comando. Quando você digita, cria um processo filho que, ao terminar, faz com que o pai volte a esperar um comando.
+
+Com aquela função "fork( )" que ela passou hoje, você cria um novo processo para executar o mesmo programa, que ele começa a executar a partir da linha em que você chama a função.
+
+Além disso, ela tem o retorno de um inteiro. Por exemplo:
+
+int id;
+
+id = fork( );
+
+Se for o processo pai, id vai ficar com o valor do PID do filho. Se for o filho, a variável vai ficar com 0. Então, depois dessa linha, você pode fazer um "if", pra que o filho faça uma coisa e o pai faça outra.
+
+No caso, o pai vai ter o wait( ), que serve pra deixar o processo esperando até o filho acabar de rodar. Já o filho tem que executar o comando. 
+
+Os comandos (clear, ls, etc) são arquivos que estão nos diretórios /bin e /sbin. Pra executá-los, usa-se alguma função da família exec. A execvp( ) é uma das mais simples, que passa como parâmetros uma string e um vetor de strings, que são o nome do arquivo e os parâmetros (por exemplo, se eu digito ls -l no terminal, os parâmetros seriam "ls" e ["ls", "-l"].
+
+E aí você coloca isso num while da vida e fica repetindo, como acontece no terminal.
