@@ -1,0 +1,393 @@
+#include <stdio.h>
+
+#include <stdlib.h>
+
+#include <time.h>
+
+#include "papi.h"
+
+#define NUM_EVENTS 3
+
+#define CONST 800
+
+#define ERROR_RETURN(retval) { fprintf(stderr, "Error %d %s:line %d: \n",
+
+retval,__FILE__,__LINE__); exit(retval); }
+
+int Events[3] = {PAPI_L1_TCM, PAPI_L2_TCM, PAPI_TOT_CYC};
+
+int retval;
+
+char errstring[PAPI_MAX_STR_LEN];
+
+long long values[NUM_EVENTS];
+
+void mult_matriz_ijk();
+
+void mult_matriz_jik();
+
+void mult_matriz_ikj();
+
+void mult_matriz_jki();
+
+void mult_matriz_kij();
+
+void mult_matriz_kji();
+
+int main(){
+
+  //system("cls");//limpa terminal no windows
+
+  system("clear");//limpa terminal no unix
+
+  printf("\nMatriz ijk\n");
+
+  mult_matriz_ijk();
+
+  printf("\n\n\nMatriz jik\n");
+
+  mult_matriz_jik();
+
+  printf("\n\n\nMatriz ikj\n");
+
+  mult_matriz_ikj();
+
+  printf("\n\n\nMatriz jki\n");
+
+  mult_matriz_jki();
+
+  printf("\n\n\nMatriz kij\n");
+
+  mult_matriz_kij();
+
+  printf("\n\n\nMatriz kji\n");
+
+  mult_matriz_kji();
+
+  exit(0);
+
+}
+
+void mult_matriz_ijk(){
+
+  int i, j, k;
+
+  float m[CONST][CONST], m1[CONST][CONST], maux[CONST][CONST],inicio, fim;
+
+  if((retval = PAPI_library_init(PAPI_VER_CURRENT)) != PAPI_VER_CURRENT ){
+
+    fprintf(stderr, "Error: %d %s\n",retval, errstring);
+
+    exit(1);
+
+  }
+
+  if ( (retval = PAPI_start_counters(Events, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  if ( (retval=PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  inicio = clock();
+
+  for(i=0;i<CONST;i++){
+
+    for(j=0;j<CONST;j++){
+
+      for(k=0;k<CONST;k++){
+
+        maux[i][j] = maux[i][j] + (m[i][k] * m1[k][j]);
+
+      }
+
+    }
+
+  }
+
+  fim = clock();
+
+  if ((retval=PAPI_stop_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  printf("Total de cache misses (L1): %lld \n", values[0] );
+
+  printf("Total de cache misses (L2): %lld \n", values[1] );
+
+  printf("Total de ciclos: %lld \n", values[2] );
+
+  printf("Total de tempo gasto: %f \n", (fim­inicio) / (float)CLOCKS_PER_SEC );
+
+}
+
+void mult_matriz_jik(){
+
+  int i, j, k;
+
+  float m[CONST][CONST], m1[CONST][CONST], maux[CONST][CONST], inicio, fim;
+
+  if((retval = PAPI_library_init(PAPI_VER_CURRENT)) != PAPI_VER_CURRENT ){
+
+    fprintf(stderr, "Error: %d %s\n",retval, errstring);
+
+    exit(1);
+
+  }
+
+  if ( (retval = PAPI_start_counters(Events, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  if ( (retval=PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  inicio = clock();
+
+  for(j=0;j<CONST;j++){
+
+    for(i=0;i<CONST;i++){
+
+      for(k=0;k<CONST;k++){
+
+        maux[i][j] = maux[i][j] + (m[i][k] * m1[k][j]);
+
+      }
+
+    }
+
+  }
+
+  fim = clock();
+
+  if ((retval=PAPI_stop_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  printf("Total de cache misses (L1) %lld \n", values[0] );
+
+  printf("Total de cache misses (L2) %lld \n", values[1] );
+
+  printf("Total de ciclos: %lld \n", values[2] );
+
+  printf("Total de tempo gasto: %f \n", (fim­inicio) / (float)CLOCKS_PER_SEC );
+
+}
+
+void mult_matriz_ikj(){
+
+  int i, j, k;
+
+  float m[CONST][CONST], m1[CONST][CONST], maux[CONST][CONST], inicio, fim;
+
+  if((retval = PAPI_library_init(PAPI_VER_CURRENT)) != PAPI_VER_CURRENT ){
+
+    fprintf(stderr, "Error: %d %s\n",retval, errstring);
+
+    exit(1);
+
+  }
+
+  if ( (retval = PAPI_start_counters(Events, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  if ( (retval=PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  inicio = clock();
+
+  for(i=0;i<CONST;i++){
+
+    for(k=0;k<CONST;k++){
+
+      for(j=0;j<CONST;j++){
+
+        maux[i][j] = maux[i][j] + (m[i][k] * m1[k][j]);
+
+      }
+
+    }
+
+  }
+
+  fim = clock();
+
+  if ((retval=PAPI_stop_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  printf("Total de cache misses (L1): %lld \n", values[0] );
+
+  printf("Total de cache misses (L2): %lld \n", values[1] );
+
+  printf("Total de ciclos: %lld \n", values[2] );
+
+  printf("Total de tempo gasto: %f \n", (fim­inicio) / (float)CLOCKS_PER_SEC );
+
+}
+
+void mult_matriz_jki(){
+
+  int i, j, k;
+
+  float m[CONST][CONST], m1[CONST][CONST], maux[CONST][CONST], inicio, fim;
+
+  if((retval = PAPI_library_init(PAPI_VER_CURRENT)) != PAPI_VER_CURRENT ){
+
+    fprintf(stderr, "Error: %d %s\n",retval, errstring);
+
+    exit(1);
+
+  }
+
+  if ( (retval = PAPI_start_counters(Events, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  if ( (retval=PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  inicio = clock();
+
+  for(j=0;j<CONST;j++){
+
+    for(k=0;k<CONST;k++){
+
+      for(i=0;i<CONST;i++){
+
+        maux[i][j] = maux[i][j] + (m[i][k] * m1[k][j]);
+
+      }
+
+    }
+
+  }
+
+  fim = clock();
+
+  if ((retval=PAPI_stop_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  printf("Total de cache misses (L1): %lld \n", values[0] );
+
+  printf("Total de cache misses (L2): %lld \n", values[1] );
+
+  printf("Total de ciclos: %lld \n", values[2] );
+
+  printf("Total de tempo gasto: %f \n", (fim­inicio) / (float)CLOCKS_PER_SEC );
+
+}
+
+void mult_matriz_kij(){
+
+  int i, j, k;
+
+  float m[CONST][CONST], m1[CONST][CONST], maux[CONST][CONST], inicio, fim;
+
+  if((retval = PAPI_library_init(PAPI_VER_CURRENT)) != PAPI_VER_CURRENT ){
+
+    fprintf(stderr, "Error: %d %s\n",retval, errstring);
+
+    exit(1);
+
+  }
+
+  if ( (retval = PAPI_start_counters(Events, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  if ( (retval=PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  inicio = clock();
+
+  for(k=0;k<CONST;k++){
+
+    for(i=0;i<CONST;i++){
+
+      for(j=0;j<CONST;j++){
+
+        maux[i][j] = maux[i][j] + (m[i][k] * m1[k][j]);
+
+      }
+
+    }
+
+  }
+
+  fim = clock();
+
+  if ((retval=PAPI_stop_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  printf("Total de cache misses (L1): %lld \n", values[0] );
+
+  printf("Total de cache misses (L2): %lld \n", values[1] );
+
+  printf("Total de ciclos: %lld \n", values[2] );
+
+  printf("Total de tempo gasto: %f \n", (fim­inicio) / (float)CLOCKS_PER_SEC );
+
+}
+
+void mult_matriz_kji(){
+
+  int i, j, k;
+
+  float m[CONST][CONST], m1[CONST][CONST], maux[CONST][CONST], inicio, fim;
+
+  if((retval = PAPI_library_init(PAPI_VER_CURRENT)) != PAPI_VER_CURRENT ){
+
+    fprintf(stderr, "Error: %d %s\n",retval, errstring);
+
+    exit(1);
+
+  }
+
+  if ( (retval = PAPI_start_counters(Events, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  if ( (retval=PAPI_read_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  inicio = clock();
+
+  for(k=0;k<CONST;k++){
+
+    for(j=0;j<CONST;j++){
+
+      for(i=0;i<CONST;i++){
+
+        maux[i][j] = maux[i][j] + (m[i][k] * m1[k][j]);
+
+      }
+
+    }
+
+  }
+
+  fim = clock();
+
+  if ((retval=PAPI_stop_counters(values, NUM_EVENTS)) != PAPI_OK)
+
+  ERROR_RETURN(retval);
+
+  printf("Total de cache misses (L1): %lld \n", values[0] );
+
+  printf("Total de cache misses (L2): %lld \n", values[1] );
+
+  printf("Total de ciclos: %lld \n", values[2] );
+
+  printf("Total de tempo gasto: %f \n", (fim­inicio) / (float)CLOCKS_PER_SEC );
+
+}
